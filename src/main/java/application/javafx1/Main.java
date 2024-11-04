@@ -1,5 +1,6 @@
 package application.javafx1;
 
+import db.DB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 public class Main extends Application {
     @Override
@@ -22,6 +24,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
+        Connection conn = DB.getConnection();
+        DB.closeConnection();
+        DB.closeConnection();
         launch();
     }
 }
