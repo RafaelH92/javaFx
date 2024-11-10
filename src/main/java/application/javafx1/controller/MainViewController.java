@@ -2,6 +2,7 @@ package application.javafx1.controller;
 
 import application.javafx1.Main;
 import application.javafx1.guiUtil.Alerts;
+import application.javafx1.modelServices.DepartmentService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,9 +14,10 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 
- public class MainViewController implements Initializable {
+public class MainViewController implements Initializable {
 
      @FXML
      private MenuItem menuItemSeller;
@@ -34,18 +36,22 @@ import java.util.ResourceBundle;
      }
 
      @FXML
-     public void onMenuItemDepartment(){
+     public void onMenuItemDepartmentAction(){
 
-         Alerts.showAlert("Titulo", null, "Click no menu Titulo", Alert.AlertType.INFORMATION);
+         //Alerts.showAlert("Titulo", null, "Click no menu Titulo", Alert.AlertType.INFORMATION);
+         loadView("/application/javafx1/gui/DepartmentList.fxml", (DepartmentListController controler) -> {
+             controler.setDepartmentService(new DepartmentService());
+             controler.updateTableView();
+         });
 
      }
 
      @FXML
-     public void onMenuItemAbout(){
+     public void onMenuItemAboutAction(){
 
          //Alerts.showAlert("Titulo", null, "Click no menu About", Alert.AlertType.INFORMATION);
 
-         loadView("/application/javafx1/gui/About.fxml");
+         loadView("/application/javafx1/gui/About.fxml", x -> {});
 
      }
 
@@ -54,7 +60,7 @@ import java.util.ResourceBundle;
 
      }
 
-     private synchronized void loadView(String absoluteName){
+     private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction){
 
          try {
 
@@ -71,6 +77,11 @@ import java.util.ResourceBundle;
              mainVbox.getChildren().add(mainMenu);
              mainVbox.getChildren().addAll(newVbox.getChildren());
 
+             /* Atribui para uma variavel generica o controlador da tela instanciada */
+             T controller = loader.getController();
+             /* Executa a funcao generica passada como parametro */
+             initializingAction.accept(controller);
+
          } catch (IOException e) {
 
              Alerts.showAlert("IOException", "Error Loader View", e.getMessage(), Alert.AlertType.ERROR);
@@ -79,4 +90,5 @@ import java.util.ResourceBundle;
 
 
      }
+
  }

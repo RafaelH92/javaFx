@@ -6,7 +6,9 @@ module application.javafx1 {
 
     opens application.javafx1 to javafx.fxml;
     opens application.javafx1.controller to javafx.fxml;
+    opens application.javafx1.modelEntities to javafx.fxml;
 
     exports application.javafx1;
     exports application.javafx1.controller;
+    exports application.javafx1.modelEntities;
 }

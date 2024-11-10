@@ -1,8 +1,10 @@
 package application.javafx1;
 
+import application.javafx1.modelDao.DaoFactory;
+import application.javafx1.modelDao.SellerDao;
+import application.javafx1.modelEntities.Seller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
@@ -45,6 +47,15 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
+        /* Teste de consulta */
+
+        System.out.println("**** TEST 1: seller findById ****");
+        SellerDao sellerdao = DaoFactory.createSellerDao();
+        Seller seller = sellerdao.findById(3);
+
+        System.out.println(seller);
+
         launch();
     }
 }
