@@ -15,4 +15,13 @@ public class DepartmentService {
         return dao.findAll();
 
     }
+
+    public void saveOrUpdate(Department obj){
+        if (obj.getId() == null){ /* Se o Id do Departement for nulo sera criado um novo registro no banco de dados */
+            dao.insert(obj);
+        }
+        else{ /* Caso contrario sera realizado a alteracao */
+            dao.update(obj);
+        }
+    }
 }
