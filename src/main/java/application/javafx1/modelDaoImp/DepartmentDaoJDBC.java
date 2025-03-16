@@ -9,7 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentDaoJDBC implements DepartmentDao {
+public class
+DepartmentDaoJDBC implements DepartmentDao {
 
     private Connection conn;
 
