@@ -1,5 +1,6 @@
 package application.javafx1.controller;
 
+import application.javafx1.guiListeners.DataChangeListener;
 import application.javafx1.guiUtil.Alerts;
 import application.javafx1.guiUtil.Constraints;
 import application.javafx1.guiUtil.Utils;
@@ -15,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DepartmentFormController implements Initializable {
@@ -24,6 +27,8 @@ public class DepartmentFormController implements Initializable {
 
     /* Dependencia do department service */
     private DepartmentService service;
+
+    private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
     @FXML
     private TextField txtId;
@@ -50,6 +55,10 @@ public class DepartmentFormController implements Initializable {
         this.service = service;
     }
 
+    public void subscribeDataChangeListener(DataChangeListener listener){
+        dataChangeListeners.add(listener);
+    }
+
     @FXML
     public void onBtSaveAction(ActionEvent event){
         /* Validacoes */
@@ -62,12 +71,19 @@ public class DepartmentFormController implements Initializable {
         try {
             entity = getFormData();
             service.saveOrUpdate(entity); /* Salvar no banco de dados */
+            notifyDataChangeListeners(); /* Notifica que foi salvo com sucesso */
             Utils.currentStage(event).close(); /* Obtem a referencia da janela atual (formulario) e fecha */
         } catch (DbException e) {
             Alerts.showAlert("Error saving object", null, e.getMessage(), Alert.AlertType.ERROR);
         }
 
 
+    }
+
+    private void notifyDataChangeListeners() {
+        for (DataChangeListener listener : dataChangeListeners){
+            listener.onDataChanged();
+        }
     }
 
     private Department getFormData() {

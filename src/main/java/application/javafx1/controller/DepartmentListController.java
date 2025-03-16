@@ -1,6 +1,7 @@
 package application.javafx1.controller;
 
 import application.javafx1.Main;
+import application.javafx1.guiListeners.DataChangeListener;
 import application.javafx1.guiUtil.Alerts;
 import application.javafx1.guiUtil.Utils;
 import application.javafx1.modelServices.DepartmentService;
@@ -25,7 +26,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
 
     private DepartmentService service;
 
@@ -102,6 +103,7 @@ public class DepartmentListController implements Initializable {
             DepartmentFormController controller = loader.getController();
             controller.setDepartment(obj);
             controller.setDepartmentService(new DepartmentService());
+            controller.subscribeDataChangeListener(this); /* Inscrever para o evento */
             controller.updateFormData();
 
             /* Instaciar e configurar o novo stage */
@@ -118,4 +120,8 @@ public class DepartmentListController implements Initializable {
         }
     }
 
+    @Override
+    public void onDataChanged() {
+        updateTableView(); /* Atualiza a lista par mostrar na grid quando o evento for disparado */
+    }
 }
