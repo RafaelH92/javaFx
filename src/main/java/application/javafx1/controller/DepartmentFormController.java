@@ -2,6 +2,7 @@ package application.javafx1.controller;
 
 import application.javafx1.guiUtil.Alerts;
 import application.javafx1.guiUtil.Constraints;
+import application.javafx1.modelEntities.Department;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -13,6 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DepartmentFormController implements Initializable {
+
+    /* Dependencia para o Department */
+    private Department entity;
 
     @FXML
     private TextField txtId;
@@ -28,6 +32,11 @@ public class DepartmentFormController implements Initializable {
 
     @FXML
     private Button btCancel;
+
+    /* Metodo set para a entidade Department */
+    public void setDepartment(Department entity){
+        this.entity = entity;
+    }
 
     @FXML
     public void onBtSaveAction(){
@@ -48,5 +57,14 @@ public class DepartmentFormController implements Initializable {
     private void initializeNodes(){
         Constraints.setTextFieldInteger(txtId);
         Constraints.setTextFieldMaxLength(txtName, 30);
+    }
+
+    /* Seta os dados do objeto Department nos campos do dialog */
+    public void updateFormData(){
+        if (entity == null){
+            throw new IllegalStateException("Entity  was null");
+        }
+        txtId.setText(String.valueOf(entity.getId()));
+        txtName.setText(entity.getName());
     }
 }
