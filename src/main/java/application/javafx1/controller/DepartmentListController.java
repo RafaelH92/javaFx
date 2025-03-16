@@ -96,6 +96,7 @@ public class DepartmentListController implements Initializable {
             FXMLLoader loader =  new FXMLLoader(getClass().getResource(absoluteName));
             Pane pane = loader.load();
 
+            /* Instaciar e configurar o novo stage */
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Enter Department data");
             dialogStage.setScene(new Scene(pane));
