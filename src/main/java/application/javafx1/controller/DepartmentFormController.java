@@ -5,6 +5,7 @@ import application.javafx1.guiUtil.Alerts;
 import application.javafx1.guiUtil.Constraints;
 import application.javafx1.guiUtil.Utils;
 import application.javafx1.modelEntities.Department;
+import application.javafx1.modelExceptions.ValidationException;
 import application.javafx1.modelServices.DepartmentService;
 import db.DbException;
 import javafx.event.ActionEvent;
@@ -16,9 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DepartmentFormController implements Initializable {
 
@@ -73,7 +72,11 @@ public class DepartmentFormController implements Initializable {
             service.saveOrUpdate(entity); /* Salvar no banco de dados */
             notifyDataChangeListeners(); /* Notifica que foi salvo com sucesso */
             Utils.currentStage(event).close(); /* Obtem a referencia da janela atual (formulario) e fecha */
-        } catch (DbException e) {
+
+        } catch (ValidationException e) {
+            setErrorMessages(e.getErrors());
+        }
+        catch (DbException e) {
             Alerts.showAlert("Error saving object", null, e.getMessage(), Alert.AlertType.ERROR);
         }
 
@@ -88,8 +91,22 @@ public class DepartmentFormController implements Initializable {
 
     private Department getFormData() {
         Department obj = new Department();
+
+        /*Instaciando a excecao de erro */
+        ValidationException exception = new ValidationException("Validation error");
+
         obj.setId(Utils.tryParceToInt(txtId.getText()));
+
+        if (txtName.getText() == null || txtName.getText().trim().equals("")){
+            exception.addError("name", "Field can't be empty");
+        }
         obj.setName(txtName.getText());
+
+        /* Verificando se a colecao tem mais de um erro, se houver lanca a excecao */
+        if(exception.getErrors().size() > 0){
+            throw exception;
+        }
+
         return obj;
     }
 
@@ -116,5 +133,14 @@ public class DepartmentFormController implements Initializable {
         }
         txtId.setText(String.valueOf(entity.getId()));
         txtName.setText(entity.getName());
+    }
+
+    /* Seta os erros no campo do formulario */
+    private void setErrorMessages(Map<String, String> errors){
+        Set<String> fields = errors.keySet();
+
+        if (fields.contains("name")){
+            labelErrorName.setText(errors.get("name"));
+        };
     }
 }
