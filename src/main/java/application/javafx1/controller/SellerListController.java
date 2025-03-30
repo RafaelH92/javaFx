@@ -22,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -38,6 +39,15 @@ public class SellerListController implements Initializable, DataChangeListener {
 
     @FXML
     private TableColumn<Seller, String> tableColumnName;
+
+    @FXML
+    private TableColumn<Seller, String> tableColumnEmail;
+
+    @FXML
+    private TableColumn<Seller, Date> tableColumnBirthDate;
+
+    @FXML
+    private TableColumn<Seller, Double> tableColumnBaseSalary;
 
     @FXML
     private TableColumn<Seller, Seller> tableColumnEDIT;
@@ -77,6 +87,11 @@ public class SellerListController implements Initializable, DataChangeListener {
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+        Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy"); /* Formata a data em dia/mes/ano */
+        tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+        Utils.formatTableColumnDouble(tableColumnBaseSalary, 2); /* Formata o numeral com 2 casas decimais  */
 
         /*Obtem referencia da janela principal e seta a altura no Table View */
         Stage stage = (Stage) Main.getMainScene().getWindow();
