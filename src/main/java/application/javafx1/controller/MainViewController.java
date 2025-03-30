@@ -3,6 +3,7 @@ package application.javafx1.controller;
 import application.javafx1.Main;
 import application.javafx1.guiUtil.Alerts;
 import application.javafx1.modelServices.DepartmentService;
+import application.javafx1.modelServices.SellerService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,7 +32,11 @@ public class MainViewController implements Initializable {
      @FXML
      public void onMenuItemSellerAction(){
 
-         Alerts.showAlert("Titulo", null, "Click no menu Seller", Alert.AlertType.INFORMATION);
+//         Alerts.showAlert("Titulo", null, "Click no menu Seller", Alert.AlertType.INFORMATION);
+         loadView("/application/javafx1/gui/SellerList.fxml", (SellerListController controler) -> {
+             controler.setSellerService(new SellerService());
+             controler.updateTableView();
+         });
 
      }
 
