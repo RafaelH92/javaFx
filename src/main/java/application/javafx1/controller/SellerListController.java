@@ -117,30 +117,30 @@ public class SellerListController implements Initializable, DataChangeListener {
 
     private void createDialogForm(Seller obj, String absoluteName, Stage parentStage){
 
-//        try {
-//
-//            FXMLLoader loader =  new FXMLLoader(getClass().getResource(absoluteName));
-//            Pane pane = loader.load();
-//
-//            /* Obter refencia para o controlador, passando o objeto para carregar no dialog */
-//            SellerFormController controller = loader.getController();
-//            controller.setSeller(obj);
-//            controller.setSellerService(new SellerService());
-//            controller.subscribeDataChangeListener(this); /* Inscrever para o evento */
-//            controller.updateFormData();
-//
-//            /* Instaciar e configurar o novo stage */
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Enter Seller data");
-//            dialogStage.setScene(new Scene(pane));
-//            dialogStage.setResizable(false);
-//            dialogStage.initOwner(parentStage);
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.showAndWait();
-//
-//        } catch (Exception e) {
-//            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
-//        }
+        try {
+
+            FXMLLoader loader =  new FXMLLoader(getClass().getResource(absoluteName));
+            Pane pane = loader.load();
+
+            /* Obter refencia para o controlador, passando o objeto para carregar no dialog */
+            SellerFormController controller = loader.getController();
+            controller.setSeller(obj);
+            controller.setSellerService(new SellerService());
+            controller.subscribeDataChangeListener(this); /* Inscrever para o evento */
+            controller.updateFormData();
+
+            /* Instaciar e configurar o novo stage */
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Enter Seller data");
+            dialogStage.setScene(new Scene(pane));
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(parentStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.showAndWait();
+
+        } catch (Exception e) {
+            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @Override
