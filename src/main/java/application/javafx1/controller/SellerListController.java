@@ -5,6 +5,7 @@ import application.javafx1.guiListeners.DataChangeListener;
 import application.javafx1.guiUtil.Alerts;
 import application.javafx1.guiUtil.Utils;
 import application.javafx1.modelEntities.Seller;
+import application.javafx1.modelServices.DepartmentService;
 import application.javafx1.modelServices.SellerService;
 import db.DbException;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -125,7 +126,8 @@ public class SellerListController implements Initializable, DataChangeListener {
             /* Obter refencia para o controlador, passando o objeto para carregar no dialog */
             SellerFormController controller = loader.getController();
             controller.setSeller(obj);
-            controller.setSellerService(new SellerService());
+            controller.setServices(new SellerService(), new DepartmentService());
+            controller.loadAssociateObjects();
             controller.subscribeDataChangeListener(this); /* Inscrever para o evento */
             controller.updateFormData();
 
@@ -139,6 +141,7 @@ public class SellerListController implements Initializable, DataChangeListener {
             dialogStage.showAndWait();
 
         } catch (Exception e) {
+            e.printStackTrace(); /* Mostra no console mais infomações de possiveis erros */
             Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
