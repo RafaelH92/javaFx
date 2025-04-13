@@ -29,6 +29,15 @@ public class Utils {
         }
     }
 
+    /* Metodo para converter para double */
+    public static Double tryParceToDouble(String str){
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     /*Metodo para formatar a data da grid (table Column)*/
     public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
         tableColumn.setCellFactory(column -> {
